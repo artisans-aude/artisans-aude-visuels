@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<style>
+:root{--rose:#FF1F7A;--orange:#FF5A2C;--jaune:#FFB000;--prune:#2B0A3D}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;font-family:"Inter",sans-serif;background:var(--prune)}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,var(--rose) 0%,var(--orange) 55%,var(--jaune) 100%)}
+.bgp{position:absolute;inset:0;background:var(--prune);opacity:0}
+.sc{position:absolute;inset:0;padding:400px 90px 0;color:#fff;opacity:0;display:flex;flex-direction:column}
+.kick{font-size:40px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin-bottom:46px}
+h1{font-family:"Inter Display","Inter",sans-serif;font-weight:900;font-size:138px;line-height:1.0;letter-spacing:-.035em}
+h2{font-family:"Inter Display","Inter",sans-serif;font-weight:900;font-size:96px;line-height:1.04;letter-spacing:-.03em}
+em{font-style:normal;background:linear-gradient(transparent 62%,var(--prune) 62%);padding:0 10px}
+.prune em{background:linear-gradient(transparent 62%,var(--rose) 62%)}
+.card{background:#fff;color:var(--prune);border-radius:64px;padding:70px 64px;margin-top:70px;box-shadow:0 34px 70px rgba(60,0,40,.28)}
+.big{font-family:"Inter Display","Inter",sans-serif;font-weight:900;font-size:200px;line-height:.95;letter-spacing:-.05em;white-space:nowrap}
+.mid{font-family:"Inter Display","Inter",sans-serif;font-weight:900;font-size:124px;line-height:.95;letter-spacing:-.045em;white-space:nowrap}
+.grad{background:linear-gradient(120deg,var(--rose),var(--orange) 60%,var(--jaune));-webkit-background-clip:text;background-clip:text;color:transparent}
+.arrow{color:var(--prune);opacity:.35}
+.t{font-size:52px;font-weight:800;line-height:1.2;margin-top:30px}
+.sub{font-size:46px;font-weight:600;line-height:1.3;margin-top:56px}
+.pill{align-self:flex-start;background:#fff;color:var(--prune);font-weight:800;font-size:50px;padding:28px 46px;border-radius:80px;margin-top:80px}
+.src{font-size:30px;line-height:1.4;opacity:.8;margin-top:90px;max-width:860px}
+.bar{position:absolute;top:120px;left:90px;right:90px;height:12px;border-radius:6px;background:rgba(255,255,255,.3);overflow:hidden}
+.bar div{height:100%;width:0;background:#fff}
+.a{opacity:0}
+</style></head><body>
+<div class="bg"></div><div class="bgp" id="bgp"></div>
+<div class="bar"><div id="prog"></div></div>
+
+<section class="sc" id="s1">
+ <div class="kick a">Budget 2027</div>
+ <h1 class="a">Ce qui change <em>vraiment</em> pour les artisans.</h1>
+ <div class="pill a">4 mesures à retenir →</div>
+</section>
+
+<section class="sc" id="s2">
+ <div class="kick a">1 · Reprise par les salariés</div>
+ <h2 class="a">Les droits sur la reprise <em>s'effondrent</em>.</h2>
+ <div class="card a"><div class="mid"><span>3&nbsp;%</span> <span class="arrow">→</span> <span class="grad">0,1&nbsp;%</span></div><div class="t">30 fois moins pour les salariés qui reprennent leur entreprise.</div></div>
+</section>
+
+<section class="sc" id="s3">
+ <div class="kick a">2 · Investir</div>
+ <h2 class="a">Un coup de pouce pour <em>s'équiper</em>.</h2>
+ <div class="card a"><div class="big grad">60&nbsp;%</div><div class="t">de suramortissement, ou 30&nbsp;% selon l'investissement.</div></div>
+</section>
+
+<section class="sc" id="s4">
+ <div class="kick a">3 · Transmettre</div>
+ <h2 class="a">L'abattement est <em>doublé</em>.</h2>
+ <div class="card a"><div class="mid"><span>500&nbsp;k€</span> <span class="arrow">→</span> <span class="grad">1&nbsp;M€</span></div><div class="t">Transmettre son entreprise coûtera moins cher.</div></div>
+</section>
+
+<section class="sc" id="s5">
+ <div class="kick a">4 · Apprentissage</div>
+ <h2 class="a">L'aide à l'embauche <em>reste</em>.</h2>
+ <div class="card a"><div class="big grad">5&nbsp;000&nbsp;€</div><div class="t">par apprenti, reconduite en 2027.</div></div>
+ <div class="sub a">370&nbsp;000 entreprises à transmettre d'ici 2030. Former, c'est préparer la relève.</div>
+</section>
+
+<section class="sc prune" id="s6">
+ <div class="kick a" style="color:var(--jaune)">À vous</div>
+ <h1 class="a" style="font-size:124px">Et pour <em>votre</em> entreprise, ça change quoi&nbsp;?</h1>
+ <div class="pill a">Dites-le en commentaire</div>
+ <div class="src a">Projet de loi de finances pour&nbsp;2027, en débat au Parlement. Mesures susceptibles d'évoluer.</div>
+</section>
+
+<script>
+const D=42;
+const S=[["s1",0,6],["s2",6,14],["s3",14,20],["s4",20,26],["s5",26,34],["s6",34,42.01]];
+const ease=x=>1-Math.pow(1-Math.min(Math.max(x,0),1),3);
+window.render=function(t){
+  document.getElementById('prog').style.width=(Math.min(t/D,1)*100)+'%';
+  document.getElementById('bgp').style.opacity=ease((t-33.8)/0.5);
+  for(const [id,a,b] of S){
+    const el=document.getElementById(id);
+    const fin=ease((t-a)/0.4), fout=(id==='s6')?1:1-ease((t-(b-0.35))/0.35);
+    el.style.opacity=(t>=a-0.01&&t<b+0.01)?Math.min(fin,fout):0;
+    [...el.querySelectorAll('.a')].forEach((c,i)=>{
+      const p=ease((t-a-0.25-i*0.6)/0.6);
+      const isCard=c.classList.contains('card');
+      c.style.opacity=p;
+      c.style.transform=isCard?`scale(${0.85+0.15*p})`:`translateY(${(1-p)*60}px)`;
+    });
+  }
+};
+render(0);
+</script>
+</body></html>
