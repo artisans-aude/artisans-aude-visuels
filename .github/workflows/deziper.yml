@@ -1,0 +1,25 @@
+name: Dezipper les archives deposees
+on:
+  push:
+    branches: [main]
+    paths: ['**.zip']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  dezipper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extraire chaque archive puis la supprimer
+        run: |
+          git ls-files '*.zip' | while IFS= read -r z; do
+            echo "Extraction de $z"
+            unzip -o "$z" -d .
+            git rm -q "$z"
+          done
+          git config user.name "artisans-aude"
+          git config user.email "artisans-aude@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Archive du mois extraite automatiquement"
+          git push
